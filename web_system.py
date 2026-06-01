@@ -170,15 +170,6 @@ def generate_zimbabwe_data():
     data = pd.DataFrame(records)
     
     # Create GeoDataFrame for mapping
-    gdf = gpd.GeoDataFrame(
-        data[['district', 'province', 'longitude', 'latitude']].drop_duplicates(),
-        geometry=gpd.points_from_xy(
-            data[['district', 'longitude']].drop_duplicates().set_index('district').loc[data['district'].unique(), 'longitude'],
-            data[['district', 'latitude']].drop_duplicates().set_index('district').loc[data['district'].unique(), 'latitude']
-        )
-    )
-    
-    # Simpler GeoDataFrame approach
     unique_districts = []
     for district in data['district'].unique():
         dist_data = data[data['district'] == district].iloc[0]
